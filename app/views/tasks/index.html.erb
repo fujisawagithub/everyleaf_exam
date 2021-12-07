@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
 
 <h1>Tasks</h1>
 
@@ -16,6 +17,7 @@
     <tr>
       <td class='task_row'><%= task.title %></td>
       <td><%= task.content %></td>
+      <td class='date_row'><%= task.deadline %></td>
       <td><%= link_to 'Show', task %></td>
       <td><%= link_to 'Edit', edit_task_path(task) %></td>
       <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

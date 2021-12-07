@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task) { FactoryBot.create(:task, title: 'task1') }
+  let!(:task){FactoryBot.create(:task)}
   before do
     visit tasks_path
   end
@@ -10,9 +10,11 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in 'task[title]', with: 'step1'
         fill_in 'task[content]', with: 'step1をクリアする'
+        fill_in 'task[deadline]', with: '002021-12-01'
         click_on '登録'
         expect(page).to have_content 'step1'
         expect(page).to have_content 'step1をクリアする'
+        expect(page).to have_content '2021-12-01'
       end
     end
   end
@@ -20,17 +22,29 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
         visit tasks_path
-        expect(page).to have_content 'task1'
+        expect(page).to have_content 'タイトル1'
       end
     end
+  end
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
-        task = FactoryBot.create(:second_task, title: 'task2')
+        task = FactoryBot.create(:second_task)
         visit tasks_path
         task_list = all('.task_row') 
-        expect(task_list[0]).to have_content 'task2'
-        expect(task_list[1]).to have_content 'task1'
+        expect(task_list[0]).to have_content 'タイトル2'
+        expect(task_list[1]).to have_content 'タイトル1'
       end
+    end
+    context '終了期限でソートする場合' do
+      it '終了期限の降順で表示される' do
+      FactoryBot.create(:task, deadline: DateTime.now + 10)
+      FactoryBot.create(:task, deadline: DateTime.now + 5)
+      visit tasks_path
+      click_on '終了期限でソートする'
+      task_list = all('.date_row')
+      expect(task_list[0]).to have_content (DateTime.now + 10).strftime('%Y-%m-%d')
+      expect(task_list[1]).to have_content (DateTime.now + 5).strftime('%Y-%m-%d')
+      expect(task_list[2]).to have_content (DateTime.now).strftime('%Y-%m-%d')
     end
   end
   describe '詳細表示機能' do
@@ -39,7 +53,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         @task = FactoryBot.create(:task, title: 'task')
         visit task_path(@task)
         expect(page).to have_content 'task'
-       end
-     end
+      end
+    end
   end
 end
