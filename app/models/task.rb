@@ -4,4 +4,11 @@ class Task < ApplicationRecord
   validates :deadline, presence: true
   validates :status, presence: true
   enum status: {未着手: 0, 着手中: 1, 完了: 2}
-end
+
+  scope :scope_title, -> (title) {
+       where("title LIKE ?","%#{ title }%")
+     }
+  scope :scope_status, -> (status) {
+       where(status: status)
+     }
+  end

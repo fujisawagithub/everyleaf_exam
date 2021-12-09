@@ -1,8 +1,9 @@
 <h1>Tasks</h1>
 <p id="notice"><%= notice %></p>
 <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+
 <div class='contener'>
-  <ul class='contener_row'>
+  <ul class='contener_search'>
     <li><%= form_with(scope: :task, url:tasks_path,local: true,method: :get) do |form| %></li>
     <li><%= form.label :title,'タスク名'%></li>
     <li><%= form.text_field :title %></li>

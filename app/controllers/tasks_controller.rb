@@ -5,14 +5,14 @@ class TasksController < ApplicationController
     @tasks = Task.all.order(id: "DESC")
     @tasks = Task.all.order(deadline: "DESC") if params[:sort_expired]
     if params[:task].present?
-      if params[:title].present? && [:status].present?
-        @tasks = @tasks.get_by(params[:titel][:status]) 
+      if params[:task][:title].present? && params[:task][:status].present?
+        @tasks = Task.scope_title(params[:task][:title]).scope_status(params[:task][:status])
       elsif
-        params[:title].present?
-        @tasks = @tasks.get_by(params[:titel])
+        params[:task][:title].present?
+        @tasks = Task.scope_title(params[:task][:title])
       elsif
-        params[:status].present?
-        @tasks = @tasks.get_by(params[:status])
+        params[:task][:status].present?
+        @tasks = Task.scope_status(params[:task][:status])
       end
     end
   end
