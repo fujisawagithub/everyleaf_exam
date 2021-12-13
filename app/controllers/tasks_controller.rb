@@ -4,6 +4,8 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all.order(id: "DESC")
     @tasks = Task.all.order(deadline: "DESC") if params[:sort_expired]
+    @tasks = Task.all.order(priority: "ASC") if params[:sort_priority]
+
     if params[:task].present?
       if params[:task][:title].present? && params[:task][:status].present?
         @tasks = Task.scope_title(params[:task][:title]).scope_status(params[:task][:status])
@@ -67,6 +69,6 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:title, :content, :deadline, :status)
+      params.require(:task).permit(:title, :content, :deadline, :status, :priority)
     end
 end
