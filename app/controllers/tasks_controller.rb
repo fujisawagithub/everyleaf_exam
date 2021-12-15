@@ -5,7 +5,6 @@ class TasksController < ApplicationController
     @tasks = Task.all.order(id: "DESC")
     @tasks = Task.all.order(deadline: "DESC") if params[:sort_expired]
     @tasks = Task.all.order(priority: "ASC") if params[:sort_priority]
-    @tasks = @tasks.page(params[:page]).per(5)
     if params[:task].present?
       if params[:task][:title].present? && params[:task][:status].present?
         @tasks = Task.scope_title(params[:task][:title]).scope_status(params[:task][:status])
@@ -17,6 +16,7 @@ class TasksController < ApplicationController
         @tasks = Task.scope_status(params[:task][:status])
       end
     end
+    @tasks = @tasks.page(params[:page]).per(10)
   end
 
   def show
