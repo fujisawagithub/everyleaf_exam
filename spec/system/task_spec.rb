@@ -63,7 +63,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '新しいタスクが一番上に表示される' do
         task = FactoryBot.create(:second_task)
         visit tasks_path
-        task_list = all('.task_row') 
+        task_list = all('.row_title') 
         expect(task_list[0]).to have_content 'タイトル2'
         expect(task_list[1]).to have_content 'タイトル1'
       end
@@ -73,8 +73,8 @@ RSpec.describe 'タスク管理機能', type: :system do
       FactoryBot.create(:task, deadline: DateTime.now + 10)
       FactoryBot.create(:task, deadline: DateTime.now + 5)
       visit tasks_path
-      click_on '終了期限でソートする'
-      task_list = all('.date_row')
+      click_link '終了期限'
+      task_list = all('.row_dedline')
       expect(task_list[0]).to have_content (DateTime.now + 10).strftime('%Y-%m-%d')
       expect(task_list[1]).to have_content (DateTime.now + 5).strftime('%Y-%m-%d')
       expect(task_list[2]).to have_content (DateTime.now).strftime('%Y-%m-%d')

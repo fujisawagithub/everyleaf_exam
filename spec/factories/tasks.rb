@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :task do
     title { 'タイトル1' }
     content { 'Factoryコンテント1' }
-    deadline { DateTime.now}
+    deadline { DateTime.now }
     status {'未着手'}
   end
 
