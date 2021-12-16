@@ -6,4 +6,5 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :create
   validates :password, length: { minimum: 6 }, allow_blank: true, on: :update
   has_secure_password
+  has_many :tasks, dependent: :destroy
 end
