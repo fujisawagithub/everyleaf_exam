@@ -11,6 +11,7 @@ gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bcrypt'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -31,4 +32,5 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'kaminari'gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'kaminari'
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
