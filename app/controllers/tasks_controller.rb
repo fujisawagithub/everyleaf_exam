@@ -2,16 +2,16 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
 
   def index
-    @tasks = Task.all.order(id: 'DESC')
-    @tasks = Task.all.order(deadline: 'DESC') if params[:sort_expired]
-    @tasks = Task.all.order(priority: 'ASC') if params[:sort_priority]
+    @tasks = current_user.tasks.order(id: 'DESC')
+    @tasks = current_user.tasks.order(deadline: 'DESC') if params[:sort_expired]
+    @tasks = current_user.tasks.order(priority: 'ASC') if params[:sort_priority]
     if params[:task].present?
       if params[:task][:title].present? && params[:task][:status].present?
-        @tasks = Task.scope_title(params[:task][:title]).scope_status(params[:task][:status])
+        @tasks = current_user.tasks.scope_title(params[:task][:title]).scope_status(params[:task][:status])
       elsif params[:task][:title].present?
-        @tasks = Task.scope_title(params[:task][:title])
+        @tasks = current_user.tasks.scope_title(params[:task][:title])
       elsif params[:task][:status].present?
-        @tasks = Task.scope_status(params[:task][:status])
+        @tasks = current_user.tasks.scope_status(params[:task][:status])
       end
     end
     @tasks = @tasks.page(params[:page]).per(10)

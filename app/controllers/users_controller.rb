@@ -12,10 +12,10 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
 
-    def show
-      @user = User.find(params[:id])
-    end
+  def show
+    @user = User.find(params[:id])
   end
 
   private

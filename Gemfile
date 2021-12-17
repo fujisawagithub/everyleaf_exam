@@ -12,12 +12,14 @@ gem 'webpacker', '~> 4.0'
 gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bcrypt'
+gem 'kaminari'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
   gem 'rexml'
+  gem 'faker'
 end
 
 group :development do
@@ -32,5 +34,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'kaminari'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
