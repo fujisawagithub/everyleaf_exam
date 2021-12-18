@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  skip_before_action :login_required, only: %i[new create]
 
   def new
     if logged_in?
@@ -21,11 +20,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
+    @tasks = current_user.tasks
+    @tasks = @tasks.page(params[:page]).per(10)
   end
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
   end
 end

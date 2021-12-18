@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
+  before_action :prohibit_access
 
   def index
     @tasks = current_user.tasks.order(id: 'DESC')
@@ -17,13 +18,15 @@ class TasksController < ApplicationController
     @tasks = @tasks.page(params[:page]).per(10)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @task = Task.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @task = Task.new(task_params)
@@ -66,5 +69,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+  end
+
+  def prohibit_access
+    redirect_to new_session_path unless current_user
   end
 end
