@@ -47,7 +47,7 @@ class Admin::UsersController < ApplicationController
 
   private
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
   end
 
   def user_params
@@ -55,6 +55,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def non_admin
-    redirect_to root_path unless current_user.admin == true
+    if current_user.admin?
+    redirect_to tasks_path, notice: '管理者以外はアクセス出来ません'
+    end
   end
 end

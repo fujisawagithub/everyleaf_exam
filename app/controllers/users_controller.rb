@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
+  skip_before_action :login_required, only: %i(new create)
 
   def new
     if logged_in?
-      flash[:denger] = '権限がありません'
       redirect_to tasks_path
     else
-    @user = User.new
+      @user = User.new
     end
   end
   
@@ -20,13 +20,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(current_user.id)
-    @tasks = current_user.tasks
+    @user = User.find(params[:id])
+    @tasks = @user.tasks.all
     @tasks = @tasks.page(params[:page]).per(10)
   end
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end
