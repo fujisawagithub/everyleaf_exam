@@ -20,7 +20,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-    @tasks = @user.tasks
   end
 
   def edit
@@ -48,7 +47,7 @@ class Admin::UsersController < ApplicationController
 
   private
   def set_user
-    @task = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def user_params
