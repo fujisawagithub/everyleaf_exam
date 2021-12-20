@@ -21,7 +21,7 @@
   <% if logged_in? %>
   <%= link_to "Tasks", root_path %> |
   <%= link_to "Profile", user_path(current_user.id) %> |
-  <%= link_to "Logout", session_path(current_user.id), method: :delete, data: {confirm: 'ログアウトしますか？'} %> |
+  <%= link_to "Logout", session_path(current_user.id), method: :delete %> |
   <% if current_user.admin?%>
   <%= link_to "管理者画面",admin_users_path %></li>
   <% end %>
