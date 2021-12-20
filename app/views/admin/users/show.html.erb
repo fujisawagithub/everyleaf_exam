@@ -1,25 +1,22 @@
 <p id="notice"><%= notice %></p>
-
 <p>
   <strong>名前:</strong>
   <%= @user.name %>
 </p>
-
 <p>
   <strong>メールアドレス:</strong>
-  <%= @user.content %>
+  <%= @user.email %>
 </p>
 <p>
   <strong>管理者権限:</strong>
-  <%= @usre.admin? %>
+  <%= @user.admin? %>
 </p>
 <p>
   <strong>タスク数:</strong>
   <%= @user.tasks.count %>
 </p>
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+<%= link_to "User一覧", admin_users_path %> |
+<%= link_to 'Back', admin_users_path %>
 
 <head>
   <!-- Required meta tags -->
@@ -30,6 +27,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <p id="notice"><%= notice %></p>
+<h4><%= @user.name %>さんのタスク一覧 </h4>
 
 <body>
   <table class="table">
@@ -37,13 +35,9 @@
       <tr>
         <th scope="col">タスク名</th>
         <th scope="col">詳しい内容</th>
-        <th scope="col"><button type="button"
-            class="btn-group sort-btn"><%= link_to "終了期限", tasks_path(sort_expired: "true") %>
-        </th>
+        <th scope="col">終了期限</th>
         <th scope="col">ステータス</th>
-        <th scope="col"><button type="button"
-            class="btn-group sort-btn"><%= link_to "優先度", tasks_path(sort_priority: "true") %>
-        </th>
+        <th scope="col">優先度</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -72,4 +66,3 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
   </script>
 </body>
-<%= paginate @tasks%>

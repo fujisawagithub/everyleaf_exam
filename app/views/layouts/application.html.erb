@@ -19,9 +19,12 @@
   <%= content_tag(:div, value, class: "#{key}") %>
   <% end %>
   <% if logged_in? %>
-  <%= link_to "Tasks", root_path %>
-  <%= link_to "Profile", user_path(current_user.id) %>
-  <%= link_to "Logout", session_path(current_user.id), method: :delete, data: {confirm: 'ログアウトしますか？'} %>
+  <%= link_to "Tasks", root_path %> |
+  <%= link_to "Profile", user_path(current_user.id) %> |
+  <%= link_to "Logout", session_path(current_user.id), method: :delete, data: {confirm: 'ログアウトしますか？'} %> |
+  <% if current_user.admin?%>
+  <%= link_to "管理者画面",admin_users_path %></li>
+  <% end %>
   <% else %>
   <%= link_to "Sign up", new_user_path %>
   <%= link_to "Login", new_session_path %>
