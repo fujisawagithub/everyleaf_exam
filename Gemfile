@@ -19,7 +19,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
   gem 'rexml'
-  gem 'faker'
 end
 
 group :development do

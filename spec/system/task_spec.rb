@@ -1,9 +1,9 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task) { FactoryBot.create(:task) }
-  before do
-    visit tasks_path
-  end
+  # let!(:task) { FactoryBot.create(:task) }
+  # before do
+  #   visit tasks_path
+  # end
   describe '検索機能' do
     context 'タイトルであいまい検索をした場合' do
       it '検索キーワードを含むタスクで絞り込まれる' do
