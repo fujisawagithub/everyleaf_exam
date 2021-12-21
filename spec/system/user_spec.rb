@@ -22,30 +22,30 @@ RSpec.describe '管理者機能', type: :system do
   describe 'セッション機能のテスト' do
     context "ログインする場合" do
       it 'ログインができること' do
-        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:user2)
         visit new_session_path
-        fill_in 'session_email', with: user.email
-        fill_in 'session_password', with: user.password
+        fill_in 'session_email', with: user2.email
+        fill_in 'session_password', with: user2.password
         click_on 'ログイン'
-        expect(current_path).to eq user_path(user)
+        expect(current_path).to eq user_path(user2)
       end
       it '自分の詳細画面に飛べること' do
-        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:user2)
         visit new_session_path
-        fill_in 'session_email', with: user.email
-        fill_in 'session_password', with: user.password
+        fill_in 'session_email', with: user2.email
+        fill_in 'session_password', with: user2.password
         click_on 'ログイン'
         click_link "Profile"
         expect(page).to have_content 'ユーザのページ'
       end
       it '一般ユーザが他人の詳細画面に飛ぶとタスク一覧ページに遷移すること' do
-        user = FactoryBot.create(:user)
-        second_user = FactoryBot.create(:second_user)
+        user2 = FactoryBot.create(:user2)
+        user3 = FactoryBot.create(:user3)
         visit new_session_path 
         fill_in 'session_email', with: 'test@test.com'
         fill_in 'session_password', with: '111111'
         click_on 'ログイン'
-        visit user_path(second_user)
+        visit user_path(user3)
         expect(page).to have_content '権限がありません'
       end
       it 'ログアウトができること' do
@@ -60,88 +60,82 @@ RSpec.describe '管理者機能', type: :system do
       end
     end
   end
-
-
-
-#   describe "管理画面のテスト" do
-#     context "管理作成から各刻目のテスト" do
-
-#       it "管理者は管理画面にアクセスできること" do
-#         FactoryBot.create(:third_user)
-#         visit new_session_path
-#         fill_in "session_email", with: "admintest01@gmail.com​"
-#         fill_in "session_password", with: "password"
-#         click_on "log_in"
-#         visit admin_users_path
-#         expect(page).to have_content "ユーザーの一覧確認ページ" 
-#       end
-
-#       it "一般ユーザーは管理画面にはアクセスできない" do
-#         visit new_user_path
-#         fill_in 'user_name', with: 'usertest05'
-#         fill_in 'user_email', with: 'usertest05@gmail.com'
-#         fill_in 'user_password', with: 'password'
-#         fill_in 'user_password_confirmation', with: 'password'
-#         click_on 'アカウント作成'
-#         visit admin_users_path
-#         expect(page).to have_content "管理者以外はアクセスできません。" 
-#       end
-
-#       it "管理者はユーザ新規登録ができる" do
-#         visit new_session_path
-#         fill_in "session_email", with: "admintest01@gmail.com​"
-#         fill_in "session_password", with: "password"
-#         click_on "log_in"
-#         visit admin_users_path
-#         click_link "users_admin_new_link"
-#         fill_in "user_name", with: "newtest01"
-#         fill_in "user_email", with: "newtest01@gmail.com"
-#         fill_in "user_password", with: "password"
-#         fill_in "user_password_confirmation", with: "password"
-#         click_on "登録する"
-#         expect(page).to have_content "newtest01"
-#       end
-
-#       it "管理者はユーザの詳細画面へ行ける" do
-#         @fourth_user = FactoryBot.create(:fourth_user)
-#         visit new_session_path
-#         fill_in "session_email", with: "admintest01@gmail.com​"
-#         fill_in "session_password", with: "password"
-#         click_on "log_in"
-#         visit admin_user_path(@fourth_user)
-#         expect(page).to have_content 'usertest11のページ'
-#       end
-
-#       it "管理者ユーザーの編集画面からユーザーの編集ができる" do
-#         @fifth_user = FactoryBot.create(:fifth_user)
-#         visit new_session_path
-#         fill_in "session_email", with: "admintest01@gmail.com​"
-#         fill_in "session_password", with: "password"
-#         click_on "log_in"
-#         visit edit_admin_user_path(id: @fifth_user.id)
-#         fill_in 'user_name', with: 'testuser1000'
-#         fill_in 'user_email', with: 'testuser1000@gmail.com'
-#         fill_in 'user_password', with: 'password'
-#         fill_in 'user_password_confirmation', with: 'password'
-#         click_on '更新する'
-#         expect(page).to have_content "testuser1000"
-#       end
-
-#       it "管理者はユーザーを削除できる" do
-#         visit new_session_path
-#         fill_in "session_email", with: "admintest01@gmail.com​"
-#         fill_in "session_password", with: "password"
-#         click_on "log_in"
-#         @sixth_user = FactoryBot.create(:sixth_user)
-#         visit admin_users_path
-#         click_link '削除', href: admin_user_path(@sixth_user)
-#         expect {
-#           page.accept_confirm '削除しますか？'
-#           expect(page).to have_content 'bar'
-#         }
-#       end
-
-#     end
-#   end
-
+  describe '管理画面のテスト' do
+    context '管理ユーザが操作する場合' do
+      it '管理ユーザは管理画面にアクセスできること' do
+        FactoryBot.create(:user)
+        visit new_session_path
+        fill_in 'session_email', with: 'admin@admin.com'
+        fill_in 'session_password', with: '000000'
+        click_on "ログイン"
+        visit admin_users_path
+        expect(page).to have_content "管理者画面" 
+      end
+      it '一般ユーザーは管理画面にはアクセスできないこと' do
+        visit new_user_path
+        fill_in 'user_name', with: 'test'
+        fill_in 'user_email', with: 'test@test.com'
+        fill_in 'user_password', with: '123456'
+        fill_in 'user_password_confirmation', with: '123456'
+        click_on '登録'
+        visit admin_users_path
+        expect(page).to have_content "管理者以外はアクセス出来ません" 
+      end
+      it '管理ユーザはユーザ新規登録ができること' do
+        FactoryBot.create(:user)        
+        visit new_session_path
+        fill_in 'session_email', with: 'admin@admin.com'
+        fill_in 'session_password', with: '000000'
+        click_on "ログイン"
+        visit admin_users_path
+        click_on "User登録"
+        fill_in 'user_name', with: 'test'
+        fill_in 'user_email', with: 'test@test.com'
+        fill_in 'user_password', with: '123456'
+        fill_in 'user_password_confirmation', with: '123456'
+        click_on "登録する"
+        expect(page).to have_content "test@test.com"
+      end
+      it '管理ユーザはユーザの詳細画面にアクセスできること' do
+        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:user2)
+        visit new_session_path
+        fill_in 'session_email', with: 'admin@admin.com'
+        fill_in 'session_password', with: '000000'
+        click_on "ログイン"
+        visit admin_user_path(user2)
+        expect(page).to have_content 'ユーザさんのタスク一覧'
+      end
+      it '管理ユーザはユーザの編集画面からユーザーを編集できること' do
+        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:user2)
+        visit new_session_path
+        fill_in 'session_email', with: 'admin@admin.com'
+        fill_in 'session_password', with: '000000'
+        click_on "ログイン"
+        visit admin_users_path
+        visit edit_admin_user_path(id: user.id)
+        fill_in 'user_name', with: 'edit'
+        fill_in 'user_email', with: 'edit@test.com'
+        fill_in 'user_password', with: '654321'
+        fill_in 'user_password_confirmation', with: '654321'
+        click_on '更新する'
+        expect(page).to have_content "ユーザを更新しました！"
+      end
+      it '管理ユーザはユーザを削除できること' do
+        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:user2)
+        visit new_session_path
+        fill_in 'session_email', with: 'admin@admin.com'
+        fill_in 'session_password', with: '000000'
+        click_on "ログイン"
+        visit admin_users_path
+        click_link '削除', href: admin_user_path(user2)
+        expect {
+          page.accept_confirm 'Are you sure？'
+          expect(page).to have_content 'ユーザを削除しました！'
+        }
+      end
+    end
+  end
 end

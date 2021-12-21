@@ -28,7 +28,7 @@ class Admin::UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'ユーザーを更新しました！' }
+        format.html { redirect_to @user, notice: 'ユーザを更新しました！' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class Admin::UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'ユーザーを削除しました！' }
+      format.html { redirect_to tasks_url, notice: 'ユーザを削除しました！' }
       format.json { head :no_content }
     end
   end
