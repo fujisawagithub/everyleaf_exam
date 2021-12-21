@@ -33,6 +33,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th scope="col">ユーザ名</th>
         <th scope="col">タスク名</th>
         <th scope="col">詳しい内容</th>
         <th scope="col">終了期限</th>
@@ -45,6 +46,7 @@
     <tbody>
       <% @user.tasks.each do |task| %>
       <tr>
+        <td class='row_user_name'><%= task.user.name %></td>
         <td class='row_title'><%= task.title %></td>
         <td class='row_content'><%= task.content %></td>
         <td class='row_dedline'><%= task.deadline %></td>

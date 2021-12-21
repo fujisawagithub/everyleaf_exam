@@ -1,8 +1,8 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
   let!(:user) { FactoryBot.create(:user2) }
-  let!(:second_task) { FactoryBot.create(:second_task, user: user) }
   let!(:task) { FactoryBot.create(:task, user: user) }
+  let!(:second_task) { FactoryBot.create(:second_task, user: user) }
   before do
     visit new_session_path 
     fill_in 'session_email', with: 'test@test.com'
@@ -65,8 +65,8 @@ RSpec.describe 'タスク管理機能', type: :system do
     it '新しいタスクが一番上に表示される' do
       visit tasks_path
       task_list = all('.row_title')
-      expect(task_list[0]).to have_content 'タイトル1'
-      expect(task_list[1]).to have_content 'タイトル2'
+      expect(task_list[0]).to have_content 'タイトル2'
+      expect(task_list[1]).to have_content 'タイトル1'
     end
   end
   context '終了期限でソートする場合' do
