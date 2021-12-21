@@ -1,3 +1,4 @@
+<h1><%= @user.name %>のページ</h1>
 <h1>Tasks</h1>
 
 <head>
@@ -9,18 +10,6 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <p id="notice"><%= notice %></p>
-
-<div class='contents clearfix'>
-  <%= form_with(scope: :task, url:tasks_path,local: true,method: :get) do |form| %>
-  <p class='contents_top'><%= form.label :title,'タスク名'%><%= form.text_field :title%></p>
-  <p class='contents_top'>
-    <%= form.label :status,'ステータス'%><%= form.select :status, Task.statuses.keys,include_blank:"選択する" %></p>
-  <p class='contents_top'><%= form.submit 'Search'%></p>
-  <p class='contents_top'><%= link_to '新規投稿', new_task_path %>
-  </p>
-
-  <%end%>
-</div>
 
 <body>
   <table class="table">

@@ -1,9 +1,27 @@
 # テーブル定義
 
-|Task|
-|------|
-|title :string|
-|content :text|
+### Task
+|カラム名| 型 |
+|------|------------|
+|title | string|
+|content | text|
+|deadline | date|
+|status | integer|
+|priority | integer|
+
+<br>
+
+### User
+|カラム名| 型 |
+|------|------------|
+|name | string|
+|email | string|
+|password_digest |string|
+|admin |boolean|
+
+
+<br>
+
 
 # Herokuへのデプロイ手順
 

@@ -1,8 +1,13 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task) { FactoryBot.create(:task) }
+  let!(:user) { FactoryBot.create(:user2) }
+  let!(:task) { FactoryBot.create(:task, user: user) }
+  let!(:second_task) { FactoryBot.create(:second_task, user: user) }
   before do
-    visit tasks_path
+    visit new_session_path 
+    fill_in 'session_email', with: 'test@test.com'
+    fill_in 'session_password', with: '111111'
+    click_on 'ログイン'
   end
   describe '検索機能' do
     context 'タイトルであいまい検索をした場合' do
@@ -58,7 +63,6 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
   context 'タスクが作成日時の降順に並んでいる場合' do
     it '新しいタスクが一番上に表示される' do
-      task = FactoryBot.create(:second_task)
       visit tasks_path
       task_list = all('.row_title')
       expect(task_list[0]).to have_content 'タイトル2'
@@ -67,22 +71,18 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
   context '終了期限でソートする場合' do
     it '終了期限の降順で表示される' do
-      FactoryBot.create(:task, deadline: DateTime.now + 10)
-      FactoryBot.create(:task, deadline: DateTime.now + 5)
       visit tasks_path
       click_link '終了期限'
       task_list = all('.row_dedline')
-      expect(task_list[0]).to have_content (DateTime.now + 10).strftime('%Y-%m-%d')
-      expect(task_list[1]).to have_content (DateTime.now + 5).strftime('%Y-%m-%d')
-      expect(task_list[2]).to have_content (DateTime.now).strftime('%Y-%m-%d')
+      expect(task_list[0]).to have_content (DateTime.now + 1).strftime('%Y-%m-%d')
+      expect(task_list[1]).to have_content (DateTime.now).strftime('%Y-%m-%d')
     end
   end
   describe '詳細表示機能' do
     context '任意のタスク詳細画面に遷移した場合' do
       it '該当タスクの内容が表示される' do
-        @task = FactoryBot.create(:task, title: 'task')
-        visit task_path(@task)
-        expect(page).to have_content 'task'
+        visit task_path(task)
+        expect(page).to have_content 'タイトル1'
       end
     end
   end

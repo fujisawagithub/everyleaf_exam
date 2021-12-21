@@ -1,4 +1,22 @@
-<h1>Tasks</h1>
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>名前:</strong>
+  <%= @user.name %>
+</p>
+<p>
+  <strong>メールアドレス:</strong>
+  <%= @user.email %>
+</p>
+<p>
+  <strong>管理者権限:</strong>
+  <%= @user.admin? %>
+</p>
+<p>
+  <strong>タスク数:</strong>
+  <%= @user.tasks.count %>
+</p>
+<%= link_to "User一覧", admin_users_path %> |
+<%= link_to 'Back', admin_users_path %>
 
 <head>
   <!-- Required meta tags -->
@@ -9,18 +27,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <p id="notice"><%= notice %></p>
-
-<div class='contents clearfix'>
-  <%= form_with(scope: :task, url:tasks_path,local: true,method: :get) do |form| %>
-  <p class='contents_top'><%= form.label :title,'タスク名'%><%= form.text_field :title%></p>
-  <p class='contents_top'>
-    <%= form.label :status,'ステータス'%><%= form.select :status, Task.statuses.keys,include_blank:"選択する" %></p>
-  <p class='contents_top'><%= form.submit 'Search'%></p>
-  <p class='contents_top'><%= link_to '新規投稿', new_task_path %>
-  </p>
-
-  <%end%>
-</div>
+<h4><%= @user.name %>さんのタスク一覧 </h4>
 
 <body>
   <table class="table">
@@ -29,19 +36,15 @@
         <th scope="col">ユーザ名</th>
         <th scope="col">タスク名</th>
         <th scope="col">詳しい内容</th>
-        <th scope="col"><button type="button"
-            class="btn-group sort-btn"><%= link_to "終了期限", tasks_path(sort_expired: "true") %>
-        </th>
+        <th scope="col">終了期限</th>
         <th scope="col">ステータス</th>
-        <th scope="col"><button type="button"
-            class="btn-group sort-btn"><%= link_to "優先度", tasks_path(sort_priority: "true") %>
-        </th>
+        <th scope="col">優先度</th>
         <th colspan="3"></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @tasks.each do |task| %>
+      <% @user.tasks.each do |task| %>
       <tr>
         <td class='row_user_name'><%= task.user.name %></td>
         <td class='row_title'><%= task.title %></td>
@@ -49,13 +52,6 @@
         <td class='row_dedline'><%= task.deadline %></td>
         <td class='row_status'><%= task.status%>
         <td class='row_priority'><%= task.priority %></td>
-        <td><button type="button" class="btn btn-outline-primary"><i
-              class="fas fa-chalkboard-teacher mr-1"><%= link_to '詳細', task %></td>
-        <td><button type="button" class="btn btn-outline-success"><i
-              class="fas fa-file-download mr-1"><%= link_to '編集', edit_task_path(task) %></td>
-        <td><button type="button" class="btn btn-outline-danger"><i
-              class="fas fa-trash-alt mr-1"><%= link_to '削除', task, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </td>
       </tr>
       <% end %>
     </tbody>
@@ -72,4 +68,3 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
   </script>
 </body>
-<%= paginate @tasks%>

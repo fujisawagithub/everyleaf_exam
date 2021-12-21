@@ -1,32 +1,35 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
+  before_action :prohibit_access
 
   def index
-    @tasks = Task.all.order(id: 'DESC')
-    @tasks = Task.all.order(deadline: 'DESC') if params[:sort_expired]
-    @tasks = Task.all.order(priority: 'ASC') if params[:sort_priority]
+    @tasks = current_user.tasks.order(id: 'DESC')
+    @tasks = current_user.tasks.order(deadline: 'DESC') if params[:sort_expired]
+    @tasks = current_user.tasks.order(priority: 'ASC') if params[:sort_priority]
     if params[:task].present?
       if params[:task][:title].present? && params[:task][:status].present?
-        @tasks = Task.scope_title(params[:task][:title]).scope_status(params[:task][:status])
+        @tasks = current_user.tasks.scope_title(params[:task][:title]).scope_status(params[:task][:status])
       elsif params[:task][:title].present?
-        @tasks = Task.scope_title(params[:task][:title])
+        @tasks = current_user.tasks.scope_title(params[:task][:title])
       elsif params[:task][:status].present?
-        @tasks = Task.scope_status(params[:task][:status])
+        @tasks = current_user.tasks.scope_status(params[:task][:status])
       end
     end
     @tasks = @tasks.page(params[:page]).per(10)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @task = Task.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
     respond_to do |format|
       if @task.save
         format.html { redirect_to @task, notice: 'タスクを保存しました！' }
@@ -66,5 +69,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+  end
+
+  def prohibit_access
+    redirect_to new_session_path unless current_user
   end
 end
