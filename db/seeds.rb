@@ -30,7 +30,7 @@ end
     deadline: DateTime.now,
     status: rand(3),
     priority: rand(3),
-    user_id: rand(21..31)
+    user_id: rand(1..11)
   )
 end
 
