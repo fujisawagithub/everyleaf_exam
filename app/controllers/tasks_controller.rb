@@ -14,7 +14,7 @@ class TasksController < ApplicationController
       elsif params[:task][:status].present?
         @tasks = current_user.tasks.scope_status(params[:task][:status])
       elsif params[:task][:label_id].present?
-        @tasks = @tasks.joins(:labels).where(labels: { id: params[:task][:label_id] })
+        @tasks = @tasks.joins(:labels).where(labels:{ id: params[:task][:label_id] })
       end
     end
     @tasks = @tasks.page(params[:page]).per(10)
