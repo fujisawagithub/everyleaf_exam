@@ -21,5 +21,6 @@ FactoryBot.define do
     deadline { DateTime.now + 2 }
     priority { '高' }
     status { '完了' }
+    label { 'label1' }
   end
 end
