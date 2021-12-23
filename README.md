@@ -19,6 +19,12 @@
 |password_digest |string|
 |admin |boolean|
 
+<br>
+
+### label
+|カラム名| 型 |
+|------|------------|
+|name | string|
 
 <br>
 
