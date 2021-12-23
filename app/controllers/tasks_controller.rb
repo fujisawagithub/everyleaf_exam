@@ -13,6 +13,8 @@ class TasksController < ApplicationController
         @tasks = current_user.tasks.scope_title(params[:task][:title])
       elsif params[:task][:status].present?
         @tasks = current_user.tasks.scope_status(params[:task][:status])
+      elsif params[:task][:label_id].present?
+        @tasks = @tasks.joins(:labels).where(labels:{ id: params[:task][:label_id] })
       end
     end
     @tasks = @tasks.page(params[:page]).per(10)
@@ -68,7 +70,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority, { label_ids: [] })
   end
 
   def prohibit_access
